@@ -1,138 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Awesome Portfolio</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f4f4f9;
-        }
-
-        /* Navigation */
-        nav {
-            background: #222;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            color: #4da6ff;
-        }
-
-        /* Header / Hero Section */
-        header {
-            background: linear-gradient(135deg, #4da6ff, #0059b3);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 3rem;
-        }
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        /* Sections */
-        section {
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h2 {
-            border-bottom: 2px solid #4da6ff;
-            padding-bottom: 5px;
-            display: inline-block;
-        }
-
-        /* Projects Grid */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .project-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: #222;
-            color: #fff;
-            margin-top: 2rem;
-        }
-    </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </nav>
+  <div class="container">
 
-    <header>
-        <h1>Hello, I'm Kamlesh Sarkar</h1>
-        <p>I build things for the web (and occasionally break them).</p>
-    </header>
+    <div class="left">
+      <input type="text" id="name" placeholder="Enter name">
+      <button onclick="saveUser()">Save</button>
+    </div>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Welcome to my corner of the internet! I am a passionate developer who loves turning caffeine into code. When I'm not debugging, you can find me exploring new technologies or trying to convince my computer to do what I actually typed, not what I meant to type.</p>
-    </section>
+    <div class="right">
+      <h3>Users</h3>
+      <div id="users"></div>
+    </div>
 
-    <section id="projects">
-        <h2>My Projects</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>Project Alpha</h3>
-                <p>A web app that predicts the future (mostly just the weather, and mostly wrong).</p>
-            </div>
-            <div class="project-card">
-                <h3>Project Beta</h3>
-                <p>An e-commerce site where I accidentally bought 400 rubber ducks during testing.</p>
-            </div>
-            <div class="project-card">
-                <h3>Project Gamma</h3>
-                <p>My crowning achievement: a button that makes a loud honking noise.</p>
-            </div>
-        </div>
-    </section>
+  </div>
 
-    <section id="contact">
-        <h2>Get In Touch</h2>
-        <p>Want to hire me or just send me a recipe for good chocolate chip cookies? Reach out!</p>
-        <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-    </section>
+  <script>
+    const API = "";
 
-    <footer>
-        <p>&copy; 2026 [Your Name]. All rights reserved. Handcrafted with mild panic.</p>
-    </footer>
+    async function saveUser() {
+      const name = document.getElementById("name").value;
+
+      await fetch(API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name })
+      });
+
+      document.getElementById("name").value = "";
+      loadUsers();
+    }
+
+    async function loadUsers() {
+      const res = await fetch(API);
+      const users = await res.json();
+
+      document.getElementById("users").innerHTML =
+        users.map(u => `<p>${u.name}</p>`).join("");
+    }
+
+    loadUsers();
+  </script>
 
 </body>
 </html>
